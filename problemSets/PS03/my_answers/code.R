@@ -106,3 +106,21 @@ r.est <- cbind(Estimate= coef(poisson.model), "Robust SE" = std.err,
 
 r.est
 stargazer(r.est, type = "latex")
+
+# Model fit vs null hypothesis test - ANOVA
+model_null <- glm(PAN.visits.06 ~ 1, data = mexMun, family = poisson(link="log"))
+anov <- anova(model_null, poisson.model, test = "Chisq")
+anov
+stargazer(anov, type = "latex")
+
+# (c) Provide the estimated mean number of visits from the winning 
+# PAN presidential candidate for a hypothetical district that was competitive 
+# (competitive.district=1), had an average poverty level (marginality.06 = 0), 
+# and a PAN governor (PAN.governor.06=1).
+
+# y = -3.81023 -0.08135(X1[competitive]) - 2.08014 (X2[marginality]) - 0.31158(X3[Pan gov])
+
+# y = -3.81023 - 0.08135 -0.31158
+-3.81023 - 0.08135 -0.31158
+# y = -4.20316
+
