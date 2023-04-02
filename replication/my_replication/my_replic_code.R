@@ -529,11 +529,27 @@ glm2ea <- glm(core8_gr~extrem.sq*alter+sex+bildung_gr+V06+
                      weights = persgew,
                      data = tm20)
 round(odds.ratio(glm2ea), 3) ## ok interesting
+# for interpretation: https://cscu.cornell.edu/wp-content/uploads/84_lgsint.pdf 
+
+typeof(tm20$alter)
+tbl <- cut(tm20$alter, breaks = 3)
+levels(tbl)
+tm20$altercut <- cut(tm20$alter, breaks = 3)
+
+glmtwt <- glm(core8_gr~extrem.sq*altercut+sex+bildung_gr+V06+
+                COR_B+corg6_gr+corg7_gr+core5_gr+v09a_gr+v09r_gr,
+              family = binomial(link = "logit"),
+              weights = persgew,
+              data = tm20)
+round(odds.ratio(glmtwt), 3)
 
 mods <- list(glm.full2, glm2ea)
 stargazer2(mods, odd.ratio = T, type = "text")
 stargazer2(mods, odd.ratio = T, type = "latex")
 
+mods2 <- list(glm.full2, glm2ea, glmtwt)
+stargazer2(mods2, odd.ratio = T, type = "text")
+stargazer2(mods2, odd.ratio = T, type = "latex", single.row = T)
 
 
 
