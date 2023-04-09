@@ -24,23 +24,17 @@ lapply(c("survival", "eha", "tidyverse", "ggfortify", "stargazer"),  pkgTest)
 
 
 ## Question
-data("infants")
-view(infants)
+data("child")
+view(child)
 
-infants_surv <- with(infants, Surv(enter, exit, event))
+child_surv <- with(child, Surv(enter, exit, event))
 
-coxm <- coxph(infants_surv ~ age + sex, data = infants)
+coxm <- coxph(child_surv ~ m.age + sex, data = child)
 summary(coxm)
 drop1(coxm, test = "Chisq")
 stargazer(coxm, type = "text")
-## no significant coefficients ? 
 
-cox2 <- coxph(infants_surv ~ age + sex, data = infants, robust = T, cluster = age)
-summary(cox2)
-drop1(cox2, test = "Chisq")
-stargazer(cox2, type = "text")
-
-km <- survfit(infants_surv ~ 1, data = infants)
+km <- survfit(child_surv ~ 1, data = child)
 summary(km, times = seq(0, 15, 1))
 plot(km, main = "Kaplan-Meier Plot", xlab = "Years", ylim = c(0.7, 1))
 autoplot(km)
