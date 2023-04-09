@@ -33,6 +33,7 @@ coxm <- coxph(child_surv ~ m.age + sex, data = child)
 summary(coxm)
 drop1(coxm, test = "Chisq")
 stargazer(coxm, type = "text")
+stargazer(coxm, type = "latex")
 
 km <- survfit(child_surv ~ 1, data = child)
 summary(km, times = seq(0, 15, 1))
